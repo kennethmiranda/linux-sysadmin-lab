@@ -26,6 +26,7 @@ A hands-on Linux systems administration lab built on Ubuntu (VirtualBox) simulat
 6. [Systemd Service Management](#6-systemd-service-management)
 7. [Bash Automation Scripts](#7-bash-automation-scripts)
 8. [Troubleshooting Scenarios](#8-troubleshooting-scenarios)
+9. [RHCSA Exam Practice](#9-rhcsa-exam-practice)
  
 ---
  
@@ -630,6 +631,116 @@ sudo fail2ban-client set sshd unbanip <IP_ADDRESS>
 sudo fail2ban-client status sshd
 ```
  
+---
+
+## 9. RHCSA Exam Practice
+
+This lab served as hands-on preparation for the Red Hat Certified System 
+Administrator (RHCSA) exam, which I passed in April 2026. Below are several 
+exam-style tasks I practiced in this environment.
+
+---
+
+### Task 1 — Create Users with Supplementary Groups
+
+**Objective:** Create user `john` with UID 1050, primary group `developers`, 
+and supplementary group `sysadmins`.
+
+```bash
+sudo groupadd -g 2001 developers
+sudo groupadd -g 2002 sysadmins
+sudo useradd -u 1050 -g developers -G sysadmins -m -s /bin/bash john
+id john
+```
+
+**Verify:** `id john` should show UID 1050, primary group developers, 
+supplementary group sysadmins.
+
+---
+
+### Task 2 — Configure a Cron Job for a Specific User
+
+**Objective:** Schedule a script to run as user `alice` every day at 3:30 AM.
+
+```bash
+sudo crontab -u alice -e
+```
+
+```
+30 3 * * * /home/alice/backup.sh
+```
+
+```bash
+sudo crontab -u alice -l
+```
+
+---
+
+### Task 3 — Set File Permissions and ACLs
+
+**Objective:** Create a directory `/data/shared` where members of the 
+`developers` group can read and write, but others have no access.
+
+```bash
+sudo mkdir -p /data/shared
+sudo chown root:developers /data/shared
+sudo chmod 770 /data/shared
+
+# Verify
+ls -ld /data/shared
+```
+
+**Extend with ACL — give auditors read-only access without changing group:**
+
+```bash
+sudo apt install acl -y
+sudo setfacl -m g:auditors:r-x /data/shared
+getfacl /data/shared
+```
+
+---
+
+### Task 4 — Configure a Systemd Service to Start on Boot
+
+**Objective:** Ensure `myapp.service` starts automatically after reboot 
+and survives a manual stop followed by a system restart.
+
+```bash
+sudo systemctl enable myapp.service
+sudo systemctl reboot
+# After reboot:
+sudo systemctl status myapp.service
+```
+
+---
+
+### Task 5 — Diagnose and Fix a Failed Service
+
+**Objective:** A service is failing on startup. Identify the cause and 
+restore it to running state.
+
+```bash
+# Simulate failure by introducing a bad ExecStart path
+sudo systemctl status myapp.service
+sudo journalctl -u myapp.service -n 30
+sudo sshd -t   # if SSH-related
+# Identify error, fix config, reload daemon, restart
+sudo systemctl daemon-reload
+sudo systemctl restart myapp.service
+```
+
+---
+
+### Task 6 — Manage Password Policies
+
+**Objective:** Configure user `bob` so their password expires every 60 days 
+with a 7-day warning.
+
+```bash
+sudo chage -M 60 -W 7 bob
+sudo chage -l bob
+```
+
 ---
  
 ## Tools Used
