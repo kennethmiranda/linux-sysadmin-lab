@@ -142,7 +142,7 @@ ssh-copy-id user@<VM_IP>
 Edit the SSH daemon config:
  
 ```bash
-sudo nano /etc/ssh/sshd_config
+sudo vim /etc/ssh/sshd_config
 ```
  
 Apply these settings:
@@ -180,7 +180,7 @@ sudo systemctl status sshd
 fail2ban monitors logs and bans IPs with repeated failed login attempts:
  
 ```bash
-sudo nano /etc/fail2ban/jail.local
+sudo vim /etc/fail2ban/jail.local
 ```
  
 ```
@@ -301,7 +301,7 @@ sudo firewall-cmd --reload
 This simulates managing an application service the way a sysadmin would in production:
  
 ```bash
-sudo nano /etc/systemd/system/myapp.service
+sudo vim /etc/systemd/system/myapp.service
 ```
  
 ```ini
@@ -360,7 +360,7 @@ sudo journalctl -u myapp.service -n 20
 Backs up specified directories, timestamps the archive, and enforces a 7-day retention policy:
  
 ```bash
-nano ~/backup.sh
+vim ~/backup.sh
 ```
  
 ```bash
@@ -399,7 +399,7 @@ echo "Backup complete: $FILENAME"
 Monitors CPU, memory, and disk usage and logs alerts when thresholds are exceeded:
  
 ```bash
-nano ~/health_check.sh
+vim ~/health_check.sh
 ```
  
 ```bash
@@ -444,7 +444,7 @@ fi
 Compresses and archives logs older than 7 days:
  
 ```bash
-nano ~/log_rotate.sh
+vim ~/log_rotate.sh
 ```
  
 ```bash
@@ -546,7 +546,7 @@ sudo sshd -t
  
 ```bash
 # Fix the config error identified by sshd -t
-sudo nano /etc/ssh/sshd_config
+sudo vim /etc/ssh/sshd_config
  
 # Restart SSH
 sudo systemctl restart sshd
