@@ -4,8 +4,8 @@ A hands-on, multi-node Linux lab built on VirtualBox simulating enterprise
 server operations across both RHEL and Ubuntu environments. This lab covers 
 user and group management, SSH hardening, sudo policy enforcement, firewall 
 configuration, systemd service management, Bash automation, and real-world 
-troubleshooting — and served as the primary preparation environment for the 
-Red Hat Certified System Administrator (RHCSA) exam, which I passed in 
+troubleshooting, serving as the primary preparation environment for the 
+Red Hat Certified System Administrator (RHCSA) exam, passed in 
 April 2026.
 
 ---
