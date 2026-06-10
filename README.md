@@ -41,7 +41,7 @@ network and could cause IP conflicts. Host-Only networking was not available in 
 VirtualBox installation.
 
 **Tradeoff:** Internal Network means the host machine cannot directly reach the VMs.
-Browser access to Prometheus and Grafana required an SSH tunnel workaround — see
+Browser access to Prometheus and Grafana required an SSH tunnel workaround. See
 [Issue 8](#issue-8----host-browser-cannot-reach-prometheus-or-grafana) for details.
 
 ---
@@ -75,8 +75,8 @@ Both VMs are attached to the same Internal Network in VirtualBox:
 - VM2 (ubuntu-node): Internal Network `labnet`, static IP `192.168.56.20`
 
 A second NAT adapter is added to each VM for internet access during package
-installation. The NAT adapter on RHEL requires manual nmcli connection creation —
-see [Issue 1](#issue-1----rhel-nat-adapter-requires-manual-nmcli-connection-creation).
+installation. The NAT adapter on RHEL requires manual nmcli connection creation. 
+See [Issue 1](#issue-1----rhel-nat-adapter-requires-manual-nmcli-connection-creation).
 
 ### RHEL Node Setup
 
@@ -116,7 +116,7 @@ sudo nmcli con up "enp0s3"
 Download Ubuntu 26.04 LTS Server ISO from [ubuntu.com](https://ubuntu.com/download/server).
 
 > **Version note:** Ubuntu 26.04 LTS works identically to 24.04 for all lab
-> commands. Use Server ISO not Desktop — Server has lower memory overhead and
+> commands. Use Server ISO not Desktop. Server has lower memory overhead and
 > is more representative of enterprise Linux deployments.
 
 After installation:
@@ -163,7 +163,7 @@ ping -c 3 192.168.56.10
 Performed on both nodes. RHEL and Ubuntu use identical `useradd`/`groupadd` syntax.
 
 > **Important:** The primary user account (alice) is created during OS installation
-> and already exists. Do not attempt to recreate it with useradd — add it to groups
+> and already exists. Do not attempt to recreate it with useradd. Add it to groups
 > using usermod instead. Only bob and carol need to be created fresh.
 
 ### Create Groups
@@ -177,10 +177,10 @@ sudo groupadd auditors
 ### Create and Assign Users
 
 ```bash
-# alice already exists from OS installation — add to sysadmins group only
+# alice already exists from OS installation, add to sysadmins group only
 sudo usermod -aG sysadmins alice
 
-# bob and carol do not exist — create them normally
+# bob and carol do not exist, create them normally
 sudo useradd -m -s /bin/bash -G developers bob
 sudo useradd -m -s /bin/bash -G auditors carol
 
@@ -288,7 +288,7 @@ sudo firewall-cmd --reload
 
 > **Ubuntu cloud-init override issue:** Ubuntu Server ships with
 > `/etc/ssh/sshd_config.d/50-cloud-init.conf` which overrides the main sshd_config.
-> Simply editing sshd_config is not sufficient — the cloud-init file must be
+> Simply editing sshd_config is not sufficient. The cloud-init file must be
 > edited directly. See [Issue 2](#issue-2----ubuntu-ssh-not-binding-to-port-2222-due-to-cloud-init-override).
 
 > **Ubuntu sshd.socket conflict:** Ubuntu also runs `sshd.socket` alongside
@@ -558,10 +558,10 @@ sudo ls /var/log/remote/ubuntu-node/
 sudo tail -f /var/log/remote/ubuntu-node/lab-test.log
 ```
 
-![Log forwarding verified — message from ubuntu-node appears on rhel-node](screenshots/9-2%20log%20forwarding.PNG)
+![Log forwarding verified, message from ubuntu-node appears on rhel-node](screenshots/9-2%20log%20forwarding.PNG)
 
 > **Note:** Log forwarding worked on first attempt with no troubleshooting required.
-> Port 514 firewall rules must be added as permanent rules — runtime-only rules
+> Port 514 firewall rules must be added as permanent rules, runtime-only rules
 > are lost on firewall reload. See [Scenario 6](#scenario-6----rsyslog-forwarding-breaks-after-firewall-reload)
 > for the break/fix troubleshooting scenario.
 
@@ -622,7 +622,7 @@ sudo systemctl start node_exporter
 > block execution with exit code 203/EXEC without this step.
 
 ```bash
-# On rhel-node — required before starting the service
+# On rhel-node: required before starting the service
 sudo restorecon -v /usr/local/bin/node_exporter
 sudo systemctl reset-failed node_exporter
 sudo systemctl start node_exporter
@@ -651,7 +651,7 @@ curl http://192.168.56.20:9100/metrics | head -20
 
 > **Version note:** Prometheus v3.x removed the `consoles` and `console_libraries`
 > directories from the release package. Skip the `sudo mv` command for those
-> directories — they no longer exist in v3.x releases.
+> directories. They no longer exist in v3.x releases.
 
 ```bash
 cd /tmp
@@ -659,7 +659,7 @@ curl -LO https://github.com/prometheus/prometheus/releases/download/v3.11.3/prom
 tar -xzf prometheus-3.11.3.linux-amd64.tar.gz
 sudo mv prometheus-3.11.3.linux-amd64/{prometheus,promtool} /usr/local/bin/
 sudo mkdir -p /etc/prometheus /var/lib/prometheus
-# Note: do NOT run the consoles/console_libraries mv command — removed in v3.x
+# Note: do NOT run the consoles/console_libraries mv command as it is removed in v3.x
 ```
 
 ### Configure Prometheus
@@ -756,7 +756,7 @@ http://localhost:3000
 
 ### Install Grafana on Ubuntu Node
 
-> **apt repository method failed** on Ubuntu 26.04 — the source list file
+> **apt repository method failed** on Ubuntu 26.04. The source list file
 > format was not accepted. Used direct .deb download instead.
 > See [Issue 9](#issue-9----grafana-apt-repository-method-failed-on-ubuntu-2604).
 
@@ -840,7 +840,7 @@ In Grafana > Alerting > Alert Rules > New Alert Rule:
 > equivalent CPU load generation.
 
 ```bash
-# On rhel-node — bash CPU load simulation
+# On rhel-node: bash CPU load simulation
 yes > /dev/null &
 yes > /dev/null &
 sleep 60
@@ -848,7 +848,7 @@ kill $(pgrep yes)
 ```
 
 ```bash
-# On ubuntu-node — stress works fine
+# On ubuntu-node: stress works fine
 stress --cpu 2 --vm 1 --vm-bytes 512M --timeout 60s
 ```
 
@@ -910,10 +910,10 @@ docker stop webserver
 docker rm webserver
 ```
 
-![Docker core operations — run, ps, logs, exec, inspect](screenshots/11-1%20docker%20commands.PNG)
+![Docker core operations: run, ps, logs, exec, inspect](screenshots/11-1%20docker%20commands.PNG)
 ![Docker stop, rm, and additional commands](screenshots/11-2%20docker%20commands.PNG)
 
-### Docker Compose — Monitoring Stack
+### Docker Compose: Monitoring Stack
 
 > Before deploying, stop the systemd Prometheus and Grafana services to free
 > ports 9090 and 3000:
@@ -969,7 +969,7 @@ volumes:
   grafana_data:
 ```
 
-> **version: attribute removed** — Docker Compose v2 no longer requires the
+> **version: attribute removed** Docker Compose v2 no longer requires the
 > version field and will show a deprecation warning if included.
 
 > **network_mode: host** is required so Prometheus containers can reach the
@@ -992,7 +992,7 @@ docker restart prometheus
 ```
 
 ![Docker Compose stack running with both containers up](screenshots/11-3%20docker%20compose.PNG)
-![Docker Compose volume mount issue — prometheus.yml not picked up](screenshots/11-4%20docker%20compose%20issue.PNG)
+![Docker Compose volume mount issue, prometheus.yml not picked up](screenshots/11-4%20docker%20compose%20issue.PNG)
 ![Prometheus running via Docker Compose with node_exporter targets](screenshots/11-5%20prometheus.PNG)
 ![Grafana running via Docker Compose](screenshots/11-6%20grafana.PNG)
 
@@ -1004,7 +1004,7 @@ Ansible installed on ubuntu-node as the control node, managing both lab nodes
 over SSH. Playbooks automate tasks performed manually earlier in the lab.
 
 **Why Ansible over alternatives like Chef or Puppet:**
-Ansible is agentless — it uses SSH which is already configured. Chef and Puppet
+Ansible is agentless. It uses SSH which is already configured. Chef and Puppet
 require agents installed on managed nodes. Ansible's YAML playbook syntax is
 also more readable and widely referenced in job descriptions for infrastructure
 and cloud roles. For a two-node lab, Ansible's simplicity is the right fit.
@@ -1039,7 +1039,7 @@ ubuntu
 
 > **Connection note:** Do not use `ansible_connection=local` for ubuntu-node
 > even though it is the control node. Local connection causes privilege
-> escalation timeouts. Use SSH for both nodes — ubuntu-node SSHs to itself
+> escalation timeouts. Use SSH for both nodes, ubuntu-node SSHs to itself
 > which works correctly with key-based auth.
 
 Create `ansible.cfg`:
@@ -1071,7 +1071,7 @@ Both nodes should return `pong`.
 
 > **NOPASSWD sudo required for Ansible:** Ansible's non-interactive sudo
 > invocation requires passwordless sudo on both nodes. Add to `/etc/sudoers`
-> directly via visudo on each node — sudoers.d drop-in files were unreliable
+> directly via visudo on each node, sudoers.d drop-in files were unreliable
 > on RHEL. See [Issue 13](#issue-13----ansible-privilege-escalation-fails-on-rhel).
 
 ```bash
@@ -1083,7 +1083,7 @@ alice ALL=(ALL) NOPASSWD: ALL
 
 ![Ansible inventory configured and ping test returning pong on both nodes](screenshots/12-1%20inventory.PNG)
 
-### Playbook 1 — User and Group Management
+### Playbook 1: User and Group Management
 
 ```yaml
 # playbooks/users.yml
@@ -1134,7 +1134,7 @@ ansible-playbook -i inventory.ini playbooks/users.yml
 
 ![Users playbook output showing ok=3 on both nodes](screenshots/12-2%20users%20playbooks.PNG)
 
-### Playbook 2 — Package Installation
+### Playbook 2: Package Installation
 
 > **Deprecation note:** Use `ansible_facts['os_family']` syntax instead of
 > `ansible_os_family` to avoid deprecation warnings in Ansible 2.20+.
@@ -1180,12 +1180,12 @@ ansible-playbook -i inventory.ini playbooks/users.yml
 ansible-playbook -i inventory.ini playbooks/packages.yml
 ```
 
-> **skipped=1 is expected** — the RHEL task skips on ubuntu-node and the Ubuntu
+> **skipped=1 is expected** the RHEL task skips on ubuntu-node and the Ubuntu
 > task skips on rhel-node. This is correct behavior from the `when` conditionals.
 
 ![Packages playbook output showing ok=2 skipped=1 on both nodes](screenshots/12-3%20packages%20playbooks.PNG)
 
-### Playbook 3 — SSH Hardening Enforcement
+### Playbook 3: SSH Hardening Enforcement
 
 ```yaml
 # playbooks/ssh_hardening.yml
@@ -1237,7 +1237,7 @@ ansible-playbook -i inventory.ini playbooks/ssh_hardening.yml
 
 ![SSH hardening playbook output on both nodes](screenshots/12-4%20ssh%20hardening%20playbooks.PNG)
 
-### Playbook 4 — Service Enforcement
+### Playbook 4: Service Enforcement
 
 ```yaml
 # playbooks/services.yml
@@ -1432,7 +1432,7 @@ logger -t "log-rotate" "Removed archives older than 30 days"
 ```
 
 > **2>/dev/null on both find and gzip** suppresses permission denied errors
-> for system log files that alice cannot read. This is expected behavior —
+> for system log files that alice cannot read. This is expected behavior,
 > in production log rotation runs as root via cron for full access.
 
 ![Log rotation script archiving accessible logs](screenshots/13-3%20log%20rotation.PNG)
@@ -1467,7 +1467,7 @@ as part of RHCSA exam preparation.
 
 ---
 
-### Scenario 1 — Service Fails to Start [RHEL]
+### Scenario 1: Service Fails to Start [RHEL]
 
 **Break it:**
 
@@ -1494,11 +1494,11 @@ sudo systemctl daemon-reload
 sudo systemctl restart myapp.service
 ```
 
-![Scenario 1 — service failure diagnosis and fix](screenshots/14-1%20scenario%201.PNG)
+![Scenario 1: service failure diagnosis and fix](screenshots/14-1%20scenario%201.PNG)
 
 ---
 
-### Scenario 2 — SSH Login Denied After Config Change
+### Scenario 2: SSH Login Denied After Config Change
 
 **Break it:**
 
@@ -1522,11 +1522,11 @@ sudo sshd -t
 sudo systemctl restart sshd
 ```
 
-![Scenario 2 — SSH config error detected with sshd -t and resolved](screenshots/14-2%20scenario%202.PNG)
+![Scenario 2: SSH config error detected with sshd -t and resolved](screenshots/14-2%20scenario%202.PNG)
 
 ---
 
-### Scenario 3 — Disk Space Exhaustion
+### Scenario 3: Disk Space Exhaustion
 
 **Simulate it:**
 
@@ -1542,7 +1542,7 @@ du -sh /* 2>/dev/null | sort -rh | head -20
 du -sh /tmp/* | sort -rh | head -10
 ```
 
-![Scenario 3 — disk exhaustion and df -h showing full partition](screenshots/14-3%20scenario%203%20p1.PNG)
+![Scenario 3: disk exhaustion and df -h showing full partition](screenshots/14-3%20scenario%203%20p1.PNG)
 
 **Fix it:**
 
@@ -1552,18 +1552,18 @@ sudo journalctl --vacuum-time=7d
 df -h
 ```
 
-![Scenario 3 — disk space recovered after cleanup](screenshots/14-4%20scenario%203%20p2.PNG)
+![Scenario 3: disk space recovered after cleanup](screenshots/14-4%20scenario%203%20p2.PNG)
 
 ---
 
-### Scenario 4 — fail2ban Blocking Legitimate User
+### Scenario 4: fail2ban Blocking Legitimate User
 
 > **Note:** This scenario was not fully demonstrable due to SSH hardening.
 > See [Issue 6](#issue-6----fail2ban-scenario-not-demonstrable-with-hardened-ssh).
 
 ---
 
-### Scenario 5 — SELinux Blocking Service [RHEL]
+### Scenario 5: SELinux Blocking Service [RHEL]
 
 **Break it:**
 
@@ -1588,11 +1588,11 @@ sudo restorecon -Rv /opt/myapp/logs/
 ls -Z /opt/myapp/logs/
 ```
 
-![Scenario 5 — SELinux context fix with semanage and restorecon](screenshots/14-5%20scenario%205.PNG)
+![Scenario 5: SELinux context fix with semanage and restorecon](screenshots/14-5%20scenario%205.PNG)
 
 ---
 
-### Scenario 6 — rsyslog Forwarding Breaks After Firewall Reload
+### Scenario 6: rsyslog Forwarding Breaks After Firewall Reload
 
 **Break it:**
 
@@ -1610,7 +1610,7 @@ nc -zv 192.168.56.10 514
 sudo systemctl status rsyslog
 ```
 
-![Scenario 6 — port 514 missing after firewall reload](screenshots/14-6%20scenario%206%20p1.PNG)
+![Scenario 6: port 514 missing after firewall reload](screenshots/14-6%20scenario%206%20p1.PNG)
 
 **Fix it:**
 
@@ -1623,11 +1623,11 @@ logger -t "lab-test" "Forwarding restored"
 sudo tail -f /var/log/remote/ubuntu-node/lab-test.log
 ```
 
-![Scenario 6 — forwarding restored and verified](screenshots/14-7%20scenario%206%20p2.PNG)
+![Scenario 6: forwarding restored and verified](screenshots/14-7%20scenario%206%20p2.PNG)
 
 ---
 
-### Scenario 7 — Docker Container Restarting in a Loop
+### Scenario 7: Docker Container Restarting in a Loop
 
 **Break it:**
 
@@ -1652,11 +1652,11 @@ docker restart prometheus
 docker compose ps
 ```
 
-![Scenario 7 — container crash diagnosed and fixed with docker cp](screenshots/14-8%20scenario%207.PNG)
+![Scenario 7: container crash diagnosed and fixed with docker cp](screenshots/14-8%20scenario%207.PNG)
 
 ---
 
-### Scenario 8 — Ansible Package Name Mismatch Between Distributions
+### Scenario 8: Ansible Package Name Mismatch Between Distributions
 
 **Simulate it:**
 
@@ -1676,7 +1676,7 @@ EOF
 ansible-playbook -i inventory.ini playbooks/test_mismatch.yml -v
 ```
 
-![Scenario 8 — playbook failing on Ubuntu due to wrong package name](screenshots/14-9%20scenario%208%20p1.PNG)
+![Scenario 8: playbook failing on Ubuntu due to wrong package name](screenshots/14-9%20scenario%208%20p1.PNG)
 
 **Fix it:**
 
@@ -1703,7 +1703,7 @@ EOF
 ansible-playbook -i inventory.ini playbooks/test_mismatch_fixed.yml
 ```
 
-![Scenario 8 — fixed with os_family conditionals running successfully](screenshots/14-10%20scenario%208%20p2%20after%20fix.PNG)
+![Scenario 8: fixed with os_family conditionals running successfully](screenshots/14-10%20scenario%208%20p2%20after%20fix.PNG)
 
 ---
 
@@ -1712,7 +1712,7 @@ ansible-playbook -i inventory.ini playbooks/test_mismatch_fixed.yml
 This lab served as the primary preparation environment for the RHCSA exam
 (EX200), passed in April 2026. All tasks were practiced on the RHEL node.
 
-### Task 1 — Create Users with Supplementary Groups
+### Task 1: Create Users with Supplementary Groups
 
 ```bash
 sudo groupadd -g 2001 developers
@@ -1721,7 +1721,7 @@ sudo useradd -u 1050 -g developers -G sysadmins -m -s /bin/bash john
 id john
 ```
 
-### Task 2 — Configure a Cron Job for a Specific User
+### Task 2: Configure a Cron Job for a Specific User
 
 ```bash
 sudo crontab -u alice -e
@@ -1733,7 +1733,7 @@ sudo crontab -u alice -e
 sudo crontab -u alice -l
 ```
 
-### Task 3 — Set File Permissions and ACLs
+### Task 3: Set File Permissions and ACLs
 
 ```bash
 sudo mkdir -p /data/shared
@@ -1744,7 +1744,7 @@ sudo setfacl -m g:auditors:r-x /data/shared
 getfacl /data/shared
 ```
 
-### Task 4 — Configure a Systemd Service to Start on Boot
+### Task 4: Configure a Systemd Service to Start on Boot
 
 ```bash
 sudo systemctl enable myapp.service
@@ -1752,7 +1752,7 @@ sudo systemctl reboot
 sudo systemctl status myapp.service
 ```
 
-### Task 5 — Diagnose and Fix a Failed Service
+### Task 5: Diagnose and Fix a Failed Service
 
 ```bash
 sudo systemctl status myapp.service
@@ -1762,14 +1762,14 @@ sudo systemctl daemon-reload
 sudo systemctl restart myapp.service
 ```
 
-### Task 6 — Manage Password Policies
+### Task 6: Manage Password Policies
 
 ```bash
 sudo chage -M 60 -W 7 bob
 sudo chage -l bob
 ```
 
-### Task 7 — Configure SELinux Modes and Contexts
+### Task 7: Configure SELinux Modes and Contexts
 
 ```bash
 getenforce
@@ -1780,7 +1780,7 @@ sudo vim /etc/selinux/config   # Set: SELINUX=enforcing
 sudo restorecon -Rv /opt/myapp/
 ```
 
-### Task 8 — Configure a Network Interface with nmcli
+### Task 8: Configure a Network Interface with nmcli
 
 ```bash
 sudo nmcli con show
@@ -1799,7 +1799,7 @@ All issues encountered during the lab, documented with root cause and resolution
 
 ---
 
-### Issue 1 — RHEL NAT Adapter Requires Manual nmcli Connection Creation
+### Issue 1: RHEL NAT Adapter Requires Manual nmcli Connection Creation
 
 **Lab section:** VM Setup
 **Symptom:** Adding NAT adapter in VirtualBox and starting VM did not
@@ -1821,9 +1821,9 @@ rhel-node throughout the lab.
 
 ---
 
-### Issue 2 — Ubuntu SSH Not Binding to Port 2222 Due to cloud-init Override
+### Issue 2: Ubuntu SSH Not Binding to Port 2222 Due to cloud-init Override
 
-**Lab section:** Part 3 — SSH Hardening
+**Lab section:** Part 3: SSH Hardening
 **Symptom:** After editing sshd_config and restarting SSH, the service still
 listened on port 22. `ss -tlnp | grep 2222` showed nothing.
 
@@ -1840,9 +1840,9 @@ PasswordAuthentication no
 
 ---
 
-### Issue 3 — Ubuntu sshd.socket Conflict Preventing Port Change
+### Issue 3: Ubuntu sshd.socket Conflict Preventing Port Change
 
-**Lab section:** Part 3 — SSH Hardening
+**Lab section:** Part 3: SSH Hardening
 **Symptom:** Even after editing 50-cloud-init.conf correctly, SSH still
 bound to port 22. `ss -tlnp | grep ssh` showed port 22 in use.
 
@@ -1863,9 +1863,9 @@ sudo ss -tlnp | grep ssh  # Now shows port 2222
 
 ---
 
-### Issue 4 — SIGTERM Does Not Trigger Restart=on-failure
+### Issue 4: SIGTERM Does Not Trigger Restart=on-failure
 
-**Lab section:** Part 6 — Systemd Service Management
+**Lab section:** Part 6: Systemd Service Management
 **Symptom:** `systemctl kill myapp.service` showed the service stopping but
 not restarting automatically.
 
@@ -1884,9 +1884,9 @@ to reliably simulate crashes in a lab environment.
 
 ---
 
-### Issue 5 — Node Exporter Fails With Exit Code 203/EXEC on RHEL
+### Issue 5: Node Exporter Fails With Exit Code 203/EXEC on RHEL
 
-**Lab section:** Part 8 — Prometheus & Grafana
+**Lab section:** Part 8: Prometheus & Grafana
 **Symptom:** `systemctl start node_exporter` fails immediately with
 `status=203/EXEC`. Service restart counter hits limit and stops.
 
@@ -1909,9 +1909,9 @@ always surface as `203/EXEC` in systemd.
 
 ---
 
-### Issue 6 — fail2ban Scenario Not Demonstrable With Hardened SSH
+### Issue 6: fail2ban Scenario Not Demonstrable With Hardened SSH
 
-**Lab section:** Part 12 — Troubleshooting Scenario 4
+**Lab section:** Part 12: Troubleshooting Scenario 4
 **Symptom:** Unable to simulate SSH brute force attempts to trigger fail2ban.
 
 **Root Cause:** SSH hardening (PasswordAuthentication no, key-only auth)
@@ -1926,11 +1926,11 @@ where password authentication must remain enabled.
 
 ---
 
-### Issue 7 — stress-ng Fails on RHEL Due to Insufficient Memory
+### Issue 7: stress-ng Fails on RHEL Due to Insufficient Memory
 
-**Lab section:** Part 8 — Performance Incident Simulation
+**Lab section:** Part 8: Performance Incident Simulation
 **Symptom:** `stress-ng --cpu 2 --vm 1 --vm-bytes 512M` fails with
-`stressor failed exit status=2`. Reducing to 256M also fails — only
+`stressor failed exit status=2`. Reducing to 256M also fails, only
 256 MB of 666 MB total was available after OS overhead.
 
 **Resolution:** Used bash `yes` command for equivalent CPU load:
@@ -1944,16 +1944,16 @@ kill $(pgrep yes)
 
 ---
 
-### Issue 8 — Host Browser Cannot Reach Prometheus or Grafana
+### Issue 8: Host Browser Cannot Reach Prometheus or Grafana
 
-**Lab section:** Part 8 — Prometheus & Grafana
+**Lab section:** Part 8: Prometheus & Grafana
 **Symptom:** VirtualBox NAT port forwarding configured correctly
 (netstat confirmed VirtualBox listening) but browser connections
 timed out or were refused.
 
 **Root Cause:** VirtualBox port forwarding did not function reliably
 in this network configuration despite correct setup. Exact cause
-not determined — possibly Windows Defender interaction or VirtualBox
+not determined, possibly Windows Defender interaction or VirtualBox
 version-specific behavior.
 
 **Resolution:** SSH tunneling from host machine:
@@ -1965,15 +1965,15 @@ ssh -p 2222 -L 9090:localhost:9090 -L 3000:localhost:3000 alice@127.0.0.1
 Keep the SSH session open and access `http://localhost:9090` and
 `http://localhost:3000` from the host browser.
 
-**Lesson:** SSH tunneling is a realistic enterprise skill — it is
+**Lesson:** SSH tunneling is a realistic enterprise skill, it is
 commonly used to securely access internal services without exposing
 ports directly. This is arguably a better solution than port forwarding.
 
 ---
 
-### Issue 9 — Grafana apt Repository Method Failed on Ubuntu 26.04
+### Issue 9: Grafana apt Repository Method Failed on Ubuntu 26.04
 
-**Lab section:** Part 8 — Grafana Install
+**Lab section:** Part 8: Grafana Install
 **Symptom:** Adding Grafana apt repository source list produced
 "Type 'dev' is not known" and "Malformed entry" errors blocking
 all apt commands.
@@ -1992,9 +1992,9 @@ sudo dpkg -i grafana_13.0.1_linux_amd64.deb
 
 ---
 
-### Issue 10 — Grafana Database Locked on First Container Startup
+### Issue 10: Grafana Database Locked on First Container Startup
 
-**Lab section:** Part 9 — Docker Compose
+**Lab section:** Part 9: Docker Compose
 **Symptom:** Grafana container shows Up status but port 3000 not
 binding. Logs show "Database locked, sleeping then retrying".
 
@@ -2010,12 +2010,12 @@ docker compose up -d
 
 ---
 
-### Issue 11 — Docker Compose Volume Mount Not Working With network_mode: host
+### Issue 11: Docker Compose Volume Mount Not Working With network_mode: host
 
-**Lab section:** Part 9 — Docker Compose
+**Lab section:** Part 9: Docker Compose
 **Symptom:** `docker exec prometheus cat /etc/prometheus/prometheus.yml`
 shows default config despite volume mount in docker-compose.yml.
-Tried relative path, absolute path, and `:ro` flag — all failed.
+Tried relative path, absolute path, and `:ro` flag: all failed.
 
 **Root Cause:** `network_mode: host` combined with volume mounts behaved
 inconsistently in this Docker version and configuration.
@@ -2033,16 +2033,16 @@ mounts. This is a realistic production pattern.
 
 ---
 
-### Issue 12 — Ansible ubuntu-node Privilege Escalation Timeout
+### Issue 12: Ansible ubuntu-node Privilege Escalation Timeout
 
-**Lab section:** Part 10 — Ansible
+**Lab section:** Part 10: Ansible
 **Symptom:** `ansible_connection=local` on ubuntu-node caused
 "Timeout (12s) waiting for privilege escalation prompt".
 
 **Root Cause:** Local connection mode handles privilege escalation
 differently from SSH and times out when waiting for sudo prompts.
 
-**Resolution:** Remove `ansible_connection=local` from inventory —
+**Resolution:** Remove `ansible_connection=local` from inventory,
 ubuntu-node uses SSH to connect to itself, which requires its own
 public key in authorized_keys:
 
@@ -2053,9 +2053,9 @@ chmod 600 ~/.ssh/authorized_keys
 
 ---
 
-### Issue 13 — Ansible Privilege Escalation Fails on RHEL
+### Issue 13: Ansible Privilege Escalation Fails on RHEL
 
-**Lab section:** Part 10 — Ansible
+**Lab section:** Part 10: Ansible
 **Symptom:** "Missing sudo password" / "Escalation requires password"
 on rhel-node despite NOPASSWD in /etc/sudoers.d/alice with correct
 0440 permissions and `sudo -n whoami` returning root.
@@ -2078,9 +2078,9 @@ entries directly to /etc/sudoers via visudo is the reliable fallback.
 
 ---
 
-### Issue 14 — Ansible Deprecation Warning for ansible_os_family
+### Issue 14: Ansible Deprecation Warning for ansible_os_family
 
-**Lab section:** Part 10 — Ansible
+**Lab section:** Part 10: Ansible
 **Symptom:** DEPRECATION WARNING about INJECT_FACTS_AS_VARS when using
 `ansible_os_family` in when conditionals.
 
@@ -2096,9 +2096,9 @@ when: ansible_facts['os_family'] == "RedHat"
 
 ---
 
-### Issue 15 — Ansible sftp/scp Transfer Warnings
+### Issue 15: Ansible sftp/scp Transfer Warnings
 
-**Lab section:** Part 10 — Ansible
+**Lab section:** Part 10: Ansible
 **Symptom:** `[WARNING]: sftp transfer mechanism failed` and
 `[WARNING]: scp transfer mechanism failed` on every playbook run.
 
