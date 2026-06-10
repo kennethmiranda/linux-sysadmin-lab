@@ -153,8 +153,8 @@ ping -c 3 192.168.56.20
 ping -c 3 192.168.56.10
 ```
 
-![rhel-node ip a and successful ping to ubuntu-node](screenshots/2 rhel node ip a and ping.PNG)
-![ubuntu-node ip a and successful ping to rhel-node](screenshots/3 ubuntu node ip a and ping.PNG)
+![rhel-node ip a and successful ping to ubuntu-node](screenshots/2%20rhel%20node%20ip%20a%20and%20ping.PNG)
+![ubuntu-node ip a and successful ping to rhel-node](screenshots/3%20ubuntu%20node%20ip%20a%20and%20ping.PNG)
 
 ---
 
@@ -207,8 +207,8 @@ groups alice
 sudo chage -l alice
 ```
 
-![id and chage -l on rhel-node confirming group membership and password policy](screenshots/4 id and chage -l.PNG)
-![id and chage -l on ubuntu-node](screenshots/4-2 id and chage -l.PNG)
+![id and chage -l on rhel-node confirming group membership and password policy](screenshots/4%20id%20and%20chage%20-l.PNG)
+![id and chage -l on ubuntu-node](screenshots/4-2%20id%20and%20chage%20-l.PNG)
 
 ### Lock and Unlock Accounts
 
@@ -219,7 +219,7 @@ sudo usermod -U bob
 sudo passwd -S bob
 ```
 
-![Lock and unlock bob account with status verification](screenshots/4-3 lock unlock bob.PNG)
+![Lock and unlock bob account with status verification](screenshots/4-3%20lock%20unlock%20bob.PNG)
 
 ---
 
@@ -283,8 +283,8 @@ sudo firewall-cmd --permanent --add-port=2222/tcp
 sudo firewall-cmd --reload
 ```
 
-![rhel-node SSH into ubuntu-node on port 2222](screenshots/5-1 rhel ssh to ubuntu.PNG)
-![RHEL SELinux port policy update and firewall rule](screenshots/5-2 rhel sshd selinux firewall.PNG)
+![rhel-node SSH into ubuntu-node on port 2222](screenshots/5-1%20rhel%20ssh%20to%20ubuntu.PNG)
+![RHEL SELinux port policy update and firewall rule](screenshots/5-2%20rhel%20sshd%20selinux%20firewall.PNG)
 
 > **Ubuntu cloud-init override issue:** Ubuntu Server ships with
 > `/etc/ssh/sshd_config.d/50-cloud-init.conf` which overrides the main sshd_config.
@@ -305,7 +305,7 @@ sudo systemctl restart ssh
 sudo ss -tlnp | grep ssh
 ```
 
-![ubuntu-node SSH into rhel-node, sshd.socket disabled](screenshots/5-3 ubuntu ssh to rhel and disable sshd.PNG)
+![ubuntu-node SSH into rhel-node, sshd.socket disabled](screenshots/5-3%20ubuntu%20ssh%20to%20rhel%20and%20disable%20sshd.PNG)
 
 ### Configure fail2ban on Ubuntu Node
 
@@ -329,7 +329,7 @@ sudo systemctl start fail2ban
 sudo fail2ban-client status sshd
 ```
 
-![fail2ban status sshd showing active monitoring](screenshots/5-4 fail2ban.PNG)
+![fail2ban status sshd showing active monitoring](screenshots/5-4%20fail2ban.PNG)
 
 ---
 
@@ -372,8 +372,8 @@ sudo visudo -f /etc/sudoers.d/auditors
 sudo -l -U bob
 ```
 
-![visudo group policies configured on rhel-node](screenshots/6-1 visudo 1.PNG)
-![visudo group policies configured on ubuntu-node](screenshots/6-2 visudo 2.PNG)
+![visudo group policies configured on rhel-node](screenshots/6-1%20visudo%201.PNG)
+![visudo group policies configured on ubuntu-node](screenshots/6-2%20visudo%202.PNG)
 
 ---
 
@@ -405,7 +405,7 @@ sudo firewall-cmd --reload
 sudo firewall-cmd --list-all
 ```
 
-![ubuntu-node firewall rules configured](screenshots/7 ubuntu firewall.PNG)
+![ubuntu-node firewall rules configured](screenshots/7%20ubuntu%20firewall.PNG)
 
 ### Block a Specific IP (Threat Response Simulation)
 
@@ -415,7 +415,7 @@ sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" \
 sudo firewall-cmd --reload
 ```
 
-![rhel-node blocking specific IP with rich rule](screenshots/7-2 block specific IP rhel node.PNG)
+![rhel-node blocking specific IP with rich rule](screenshots/7-2%20block%20specific%20IP%20rhel%20node.PNG)
 
 ---
 
@@ -462,7 +462,7 @@ sudo systemctl start myapp.service
 sudo systemctl status myapp.service
 ```
 
-![myapp.service active and running on rhel-node](screenshots/8-1 service on rhel node.PNG)
+![myapp.service active and running on rhel-node](screenshots/8-1%20service%20on%20rhel%20node.PNG)
 
 ### Simulate a Failure and Recovery
 
@@ -486,8 +486,8 @@ myapp.service: Scheduled restart job
 Started My Application Service
 ```
 
-![SIGKILL failure and automatic restart recovery](screenshots/8-2 failure recovery.PNG)
-![journalctl showing crash and recovery sequence](screenshots/8-3 journalctl.PNG)
+![SIGKILL failure and automatic restart recovery](screenshots/8-2%20failure%20recovery.PNG)
+![journalctl showing crash and recovery sequence](screenshots/8-3%20journalctl.PNG)
 
 ---
 
@@ -531,7 +531,7 @@ sudo firewall-cmd --reload
 sudo systemctl restart rsyslog
 ```
 
-![rhel-node log server configuration and rsyslog status](screenshots/9-1 rhel node log server.PNG)
+![rhel-node log server configuration and rsyslog status](screenshots/9-1%20rhel%20node%20log%20server.PNG)
 
 ### Configure Ubuntu Node as Log Client
 
@@ -558,7 +558,7 @@ sudo ls /var/log/remote/ubuntu-node/
 sudo tail -f /var/log/remote/ubuntu-node/lab-test.log
 ```
 
-![Log forwarding verified — message from ubuntu-node appears on rhel-node](screenshots/9-2 log forwarding.PNG)
+![Log forwarding verified — message from ubuntu-node appears on rhel-node](screenshots/9-2%20log%20forwarding.PNG)
 
 > **Note:** Log forwarding worked on first attempt with no troubleshooting required.
 > Port 514 firewall rules must be added as permanent rules — runtime-only rules
@@ -635,8 +635,8 @@ sudo firewall-cmd --permanent --add-port=9100/tcp
 sudo firewall-cmd --reload
 ```
 
-![ubuntu-node Node Exporter setup and service status](screenshots/10-1 ubuntu node exporter setup.PNG)
-![rhel-node Node Exporter SELinux issue and restorecon fix](screenshots/10-2 rhel node exporter issue.PNG)
+![ubuntu-node Node Exporter setup and service status](screenshots/10-1%20ubuntu%20node%20exporter%20setup.PNG)
+![rhel-node Node Exporter SELinux issue and restorecon fix](screenshots/10-2%20rhel%20node%20exporter%20issue.PNG)
 
 Verify metrics on both nodes:
 
@@ -645,7 +645,7 @@ curl http://192.168.56.10:9100/metrics | head -20
 curl http://192.168.56.20:9100/metrics | head -20
 ```
 
-![Metric data being served on both nodes](screenshots/10-3 metric data.PNG)
+![Metric data being served on both nodes](screenshots/10-3%20metric%20data.PNG)
 
 ### Install Prometheus on Ubuntu Node
 
@@ -722,7 +722,7 @@ sudo systemctl status prometheus
 > **RHEL SELinux note:** Run `sudo restorecon -v /usr/local/bin/prometheus`
 > before starting if the service fails with exit code 203/EXEC.
 
-![Prometheus service active running on ubuntu-node](screenshots/10-4 prometheus running.PNG)
+![Prometheus service active running on ubuntu-node](screenshots/10-4%20prometheus%20running.PNG)
 
 ### Host Browser Access via SSH Tunnel
 
@@ -752,7 +752,7 @@ http://localhost:9090/targets
 http://localhost:3000
 ```
 
-![Prometheus targets page on host browser via SSH tunnel](screenshots/10-5 prometheus host browser after issue.PNG)
+![Prometheus targets page on host browser via SSH tunnel](screenshots/10-5%20prometheus%20host%20browser%20after%20issue.PNG)
 
 ### Install Grafana on Ubuntu Node
 
@@ -775,7 +775,7 @@ sudo systemctl status grafana-server
 
 Access at `http://localhost:3000` (admin/admin, change on first login).
 
-![Grafana login page on host browser via SSH tunnel](screenshots/10-6 grafana host browser.PNG)
+![Grafana login page on host browser via SSH tunnel](screenshots/10-6%20grafana%20host%20browser.PNG)
 
 ### Connect Prometheus as Data Source
 
@@ -787,7 +787,7 @@ Access at `http://localhost:3000` (admin/admin, change on first login).
 
 Dashboards > Import > ID: `1860` > Load > Select Prometheus > Import
 
-![Node Exporter Full dashboard in Grafana showing both nodes](screenshots/10-7 node exporter dashboard.PNG)
+![Node Exporter Full dashboard in Grafana showing both nodes](screenshots/10-7%20node%20exporter%20dashboard.PNG)
 
 ### Configure Email Alerts (SMTP)
 
@@ -813,7 +813,7 @@ sudo systemctl restart grafana-server
 > Gmail requires an App Password (not your regular password). Generate one at
 > myaccount.google.com > Security > 2-Step Verification > App passwords.
 
-![Grafana test email received confirming SMTP configuration](screenshots/10-8 grafana test email.PNG)
+![Grafana test email received confirming SMTP configuration](screenshots/10-8%20grafana%20test%20email.PNG)
 
 ### Configure Disk Usage Alert
 
@@ -831,7 +831,7 @@ In Grafana > Alerting > Alert Rules > New Alert Rule:
  node_filesystem_size_bytes{job="node_exporter",fstype!="tmpfs"} * 100 > 80
 ```
 
-![Disk usage alert rule configured in Grafana](screenshots/10-9 grafana disk usage alert.PNG)
+![Disk usage alert rule configured in Grafana](screenshots/10-9%20grafana%20disk%20usage%20alert.PNG)
 
 ### Simulate a Performance Incident
 
@@ -854,8 +854,8 @@ stress --cpu 2 --vm 1 --vm-bytes 512M --timeout 60s
 
 Run one node at a time to see distinct per-node spikes in Grafana.
 
-![rhel-node CPU spike in Grafana dashboard during stress test](screenshots/10-10 rhel stress.PNG)
-![ubuntu-node CPU spike in Grafana dashboard during stress test](screenshots/10-11 ubuntu stress.PNG)
+![rhel-node CPU spike in Grafana dashboard during stress test](screenshots/10-10%20rhel%20stress.PNG)
+![ubuntu-node CPU spike in Grafana dashboard during stress test](screenshots/10-11%20ubuntu%20stress.PNG)
 
 ---
 
@@ -910,8 +910,8 @@ docker stop webserver
 docker rm webserver
 ```
 
-![Docker core operations — run, ps, logs, exec, inspect](screenshots/11-1 docker commands.PNG)
-![Docker stop, rm, and additional commands](screenshots/11-2 docker commands.PNG)
+![Docker core operations — run, ps, logs, exec, inspect](screenshots/11-1%20docker%20commands.PNG)
+![Docker stop, rm, and additional commands](screenshots/11-2%20docker%20commands.PNG)
 
 ### Docker Compose — Monitoring Stack
 
@@ -991,10 +991,10 @@ docker cp ~/monitoring-stack/prometheus.yml prometheus:/etc/prometheus/prometheu
 docker restart prometheus
 ```
 
-![Docker Compose stack running with both containers up](screenshots/11-3 docker compose.PNG)
-![Docker Compose volume mount issue — prometheus.yml not picked up](screenshots/11-4 docker compose issue.PNG)
-![Prometheus running via Docker Compose with node_exporter targets](screenshots/11-5 prometheus.PNG)
-![Grafana running via Docker Compose](screenshots/11-6 grafana.PNG)
+![Docker Compose stack running with both containers up](screenshots/11-3%20docker%20compose.PNG)
+![Docker Compose volume mount issue — prometheus.yml not picked up](screenshots/11-4%20docker%20compose%20issue.PNG)
+![Prometheus running via Docker Compose with node_exporter targets](screenshots/11-5%20prometheus.PNG)
+![Grafana running via Docker Compose](screenshots/11-6%20grafana.PNG)
 
 ---
 
@@ -1081,7 +1081,7 @@ Defaults:alice !requiretty
 alice ALL=(ALL) NOPASSWD: ALL
 ```
 
-![Ansible inventory configured and ping test returning pong on both nodes](screenshots/12-1 inventory.PNG)
+![Ansible inventory configured and ping test returning pong on both nodes](screenshots/12-1%20inventory.PNG)
 
 ### Playbook 1 — User and Group Management
 
@@ -1132,7 +1132,7 @@ alice ALL=(ALL) NOPASSWD: ALL
 ansible-playbook -i inventory.ini playbooks/users.yml
 ```
 
-![Users playbook output showing ok=3 on both nodes](screenshots/12-2 users playbooks.PNG)
+![Users playbook output showing ok=3 on both nodes](screenshots/12-2%20users%20playbooks.PNG)
 
 ### Playbook 2 — Package Installation
 
@@ -1183,7 +1183,7 @@ ansible-playbook -i inventory.ini playbooks/packages.yml
 > **skipped=1 is expected** — the RHEL task skips on ubuntu-node and the Ubuntu
 > task skips on rhel-node. This is correct behavior from the `when` conditionals.
 
-![Packages playbook output showing ok=2 skipped=1 on both nodes](screenshots/12-3 packages playbooks.PNG)
+![Packages playbook output showing ok=2 skipped=1 on both nodes](screenshots/12-3%20packages%20playbooks.PNG)
 
 ### Playbook 3 — SSH Hardening Enforcement
 
@@ -1235,7 +1235,7 @@ ansible-playbook -i inventory.ini playbooks/packages.yml
 ansible-playbook -i inventory.ini playbooks/ssh_hardening.yml
 ```
 
-![SSH hardening playbook output on both nodes](screenshots/12-4 ssh hardening playbooks.PNG)
+![SSH hardening playbook output on both nodes](screenshots/12-4%20ssh%20hardening%20playbooks.PNG)
 
 ### Playbook 4 — Service Enforcement
 
@@ -1287,7 +1287,7 @@ ansible-playbook -i inventory.ini playbooks/ssh_hardening.yml
 ansible-playbook -i inventory.ini playbooks/services.yml
 ```
 
-![Services playbook output showing ok=3 skipped=1 on both nodes](screenshots/12-5 services playbooks.PNG)
+![Services playbook output showing ok=3 skipped=1 on both nodes](screenshots/12-5%20services%20playbooks.PNG)
 
 ---
 
@@ -1346,7 +1346,7 @@ logger -t "$LOG_TAG" "Old backups older than $RETENTION_DAYS days removed"
 echo "Backup complete: $FILENAME"
 ```
 
-![Backup script running cleanly with no errors](screenshots/13-1 backup.PNG)
+![Backup script running cleanly with no errors](screenshots/13-1%20backup.PNG)
 
 ### System Health Check Script
 
@@ -1401,7 +1401,7 @@ check_node "rhel-node"
 > **Prerequisite:** Create and chown the log file before running:
 > `sudo touch /var/log/health_check.log && sudo chown alice:alice /var/log/health_check.log`
 
-![Health check script output and log file showing readings for both nodes](screenshots/13-2 health check.PNG)
+![Health check script output and log file showing readings for both nodes](screenshots/13-2%20health%20check.PNG)
 
 ### Log Rotation Script
 
@@ -1435,7 +1435,7 @@ logger -t "log-rotate" "Removed archives older than 30 days"
 > for system log files that alice cannot read. This is expected behavior —
 > in production log rotation runs as root via cron for full access.
 
-![Log rotation script archiving accessible logs](screenshots/13-3 log rotation.PNG)
+![Log rotation script archiving accessible logs](screenshots/13-3%20log%20rotation.PNG)
 
 ### Make Executable and Schedule with Cron
 
@@ -1455,7 +1455,7 @@ crontab -e
 0 2 * * 0 /home/alice/log_rotate.sh
 ```
 
-![crontab -l showing all three scheduled jobs](screenshots/13-4 crontab -l.PNG)
+![crontab -l showing all three scheduled jobs](screenshots/13-4%20crontab%20-l.PNG)
 
 ---
 
@@ -1494,7 +1494,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart myapp.service
 ```
 
-![Scenario 1 — service failure diagnosis and fix](screenshots/14-1 scenario 1.PNG)
+![Scenario 1 — service failure diagnosis and fix](screenshots/14-1%20scenario%201.PNG)
 
 ---
 
@@ -1522,7 +1522,7 @@ sudo sshd -t
 sudo systemctl restart sshd
 ```
 
-![Scenario 2 — SSH config error detected with sshd -t and resolved](screenshots/14-2 scenario 2.PNG)
+![Scenario 2 — SSH config error detected with sshd -t and resolved](screenshots/14-2%20scenario%202.PNG)
 
 ---
 
@@ -1542,7 +1542,7 @@ du -sh /* 2>/dev/null | sort -rh | head -20
 du -sh /tmp/* | sort -rh | head -10
 ```
 
-![Scenario 3 — disk exhaustion and df -h showing full partition](screenshots/14-3 scenario 3 p1.PNG)
+![Scenario 3 — disk exhaustion and df -h showing full partition](screenshots/14-3%20scenario%203%20p1.PNG)
 
 **Fix it:**
 
@@ -1552,7 +1552,7 @@ sudo journalctl --vacuum-time=7d
 df -h
 ```
 
-![Scenario 3 — disk space recovered after cleanup](screenshots/14-4 scenario 3 p2.PNG)
+![Scenario 3 — disk space recovered after cleanup](screenshots/14-4%20scenario%203%20p2.PNG)
 
 ---
 
@@ -1588,7 +1588,7 @@ sudo restorecon -Rv /opt/myapp/logs/
 ls -Z /opt/myapp/logs/
 ```
 
-![Scenario 5 — SELinux context fix with semanage and restorecon](screenshots/14-5 scenario 5.PNG)
+![Scenario 5 — SELinux context fix with semanage and restorecon](screenshots/14-5%20scenario%205.PNG)
 
 ---
 
@@ -1610,7 +1610,7 @@ nc -zv 192.168.56.10 514
 sudo systemctl status rsyslog
 ```
 
-![Scenario 6 — port 514 missing after firewall reload](screenshots/14-6 scenario 6 p1.PNG)
+![Scenario 6 — port 514 missing after firewall reload](screenshots/14-6%20scenario%206%20p1.PNG)
 
 **Fix it:**
 
@@ -1623,7 +1623,7 @@ logger -t "lab-test" "Forwarding restored"
 sudo tail -f /var/log/remote/ubuntu-node/lab-test.log
 ```
 
-![Scenario 6 — forwarding restored and verified](screenshots/14-7 scenario 6 p2.PNG)
+![Scenario 6 — forwarding restored and verified](screenshots/14-7%20scenario%206%20p2.PNG)
 
 ---
 
@@ -1652,7 +1652,7 @@ docker restart prometheus
 docker compose ps
 ```
 
-![Scenario 7 — container crash diagnosed and fixed with docker cp](screenshots/14-8 scenario 7.PNG)
+![Scenario 7 — container crash diagnosed and fixed with docker cp](screenshots/14-8%20scenario%207.PNG)
 
 ---
 
@@ -1676,7 +1676,7 @@ EOF
 ansible-playbook -i inventory.ini playbooks/test_mismatch.yml -v
 ```
 
-![Scenario 8 — playbook failing on Ubuntu due to wrong package name](screenshots/14-9 scenario 8 p1.PNG)
+![Scenario 8 — playbook failing on Ubuntu due to wrong package name](screenshots/14-9%20scenario%208%20p1.PNG)
 
 **Fix it:**
 
@@ -1703,7 +1703,7 @@ EOF
 ansible-playbook -i inventory.ini playbooks/test_mismatch_fixed.yml
 ```
 
-![Scenario 8 — fixed with os_family conditionals running successfully](screenshots/14-10 scenario 8 p2 after fix.PNG)
+![Scenario 8 — fixed with os_family conditionals running successfully](screenshots/14-10%20scenario%208%20p2%20after%20fix.PNG)
 
 ---
 
